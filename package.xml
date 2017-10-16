@@ -10,7 +10,7 @@
   <email>slusarz@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2016-02-18</date>
+ <date>2017-10-17</date>
  <version>
   <release>2.1.2</release>
   <api>2.0.0</api>
@@ -29,7 +29,6 @@
     <dir name="Horde">
      <dir name="Socket">
       <dir name="Client">
-       <file name="COPYING" role="doc" />
        <file name="UPGRADING" role="doc" />
       </dir> <!-- /doc/Horde/Socket/Client -->
      </dir> <!-- /doc/Horde/Socket -->
@@ -45,7 +44,8 @@
      </dir> <!-- /lib/Horde/Socket -->
     </dir> <!-- /lib/Horde -->
    </dir> <!-- /lib -->
-   </dir> <!-- / -->
+   <file name="LICENSE" role="doc" />
+  </dir> <!-- / -->
  </contents>
  <dependencies>
   <required>
@@ -73,11 +73,11 @@
  </dependencies>
  <phprelease>
   <filelist>
-   <install as="COPYING" name="doc/Horde/Socket/Client/COPYING" />
    <install as="UPGRADING" name="doc/Horde/Socket/Client/UPGRADING" />
    <install as="Horde/Socket/Client.php" name="lib/Horde/Socket/Client.php" />
    <install as="Horde/Socket/Client/Exception.php" name="lib/Horde/Socket/Client/Exception.php" />
-   </filelist>
+   <install as="LICENSE" name="LICENSE" />
+  </filelist>
  </phprelease>
  <changelog>
   <release>
@@ -182,7 +182,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2016-02-18</date>
+   <date>2017-10-17</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
