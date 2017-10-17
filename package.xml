@@ -29,7 +29,7 @@
     <dir name="Horde">
      <dir name="Socket">
       <dir name="Client">
-       <file name="UPGRADING" role="doc" />
+       <file name="UPGRADING.rst" role="doc" />
       </dir> <!-- /doc/Horde/Socket/Client -->
      </dir> <!-- /doc/Horde/Socket -->
     </dir> <!-- /doc/Horde -->
@@ -73,7 +73,7 @@
  </dependencies>
  <phprelease>
   <filelist>
-   <install as="UPGRADING" name="doc/Horde/Socket/Client/UPGRADING" />
+   <install as="UPGRADING.rst" name="doc/Horde/Socket/Client/UPGRADING.rst" />
    <install as="Horde/Socket/Client.php" name="lib/Horde/Socket/Client.php" />
    <install as="Horde/Socket/Client/Exception.php" name="lib/Horde/Socket/Client/Exception.php" />
    <install as="LICENSE" name="LICENSE" />
