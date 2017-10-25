@@ -5,3 +5,27 @@ full: Network socket client library
 description: Provides abstract class for use in creating PHP network socket clients.
 list: dev
 type: library
+authors:
+  -
+    name: Michael Slusarz
+    user: slusarz
+    email: slusarz@horde.org
+    active: true
+    role: lead
+version:
+  release: 2.1.2
+  api: 2.0.0
+state:
+  release: stable
+  api: stable
+license:
+  identifier: LGPL-2.1
+  uri: http://www.horde.org/licenses/lgpl21
+dependencies:
+  required:
+    php: ^5.3 || ^7
+    pear:
+      pear.horde.org/Horde_Exception: ^2
+  optional:
+    ext:
+      openssl: '*'
