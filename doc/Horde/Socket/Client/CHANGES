@@ -1,0 +1,55 @@
+----------
+v2.1.2-git
+----------
+
+
+------
+v2.1.1
+------
+
+[jan] Mark PHP 7 as supported.
+
+
+------
+v2.1.0
+------
+
+[jan] Enable TLS 1.1 and 1.2 connections (Request #14190).
+
+
+------
+v2.0.0
+------
+
+[jan] Add parameter for stream context settings (Request #13730).
+[jan] Allow to pass hostname with protocol scheme prefix.
+[jan] Add getStatus(), gets(), read(), and write().
+
+
+------
+v1.1.2
+------
+
+[mms] Fix BC-breaking regression with self-signed TLS certificates introduced
+      by PHP 5.6.
+
+
+------
+v1.1.1
+------
+
+[mms] Handle transient socket connection issues.
+
+
+------
+v1.1.0
+------
+
+[mms] Add 'tlsv1' as a secure parameter option in the Client constructor.
+
+
+------
+v1.0.0
+------
+
+[mms] Initial release.

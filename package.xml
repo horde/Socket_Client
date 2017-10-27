@@ -10,7 +10,7 @@
   <email>slusarz@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-17</date>
+ <date>2017-10-27</date>
  <version>
   <release>2.1.2</release>
   <api>2.0.0</api>
@@ -28,6 +28,7 @@
     <dir name="Horde">
      <dir name="Socket">
       <dir name="Client">
+       <file name="CHANGES" role="doc" />
        <file name="UPGRADING.rst" role="doc" />
       </dir> <!-- /doc/Horde/Socket/Client -->
      </dir> <!-- /doc/Horde/Socket -->
@@ -72,6 +73,7 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="CHANGES" name="doc/Horde/Socket/Client/CHANGES" />
    <install as="UPGRADING.rst" name="doc/Horde/Socket/Client/UPGRADING.rst" />
    <install as="Horde/Socket/Client.php" name="lib/Horde/Socket/Client.php" />
    <install as="Horde/Socket/Client/Exception.php" name="lib/Horde/Socket/Client/Exception.php" />
@@ -181,7 +183,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-17</date>
+   <date>2017-10-27</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
    </notes>
