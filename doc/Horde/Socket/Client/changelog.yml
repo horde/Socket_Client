@@ -1,0 +1,90 @@
+---
+2.1.2:
+  api: 2.0.0
+  state:
+    release: stable
+    api: stable
+  date: 2017-10-17
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes:
+2.1.1:
+  api: 2.0.0
+  state:
+    release: stable
+    api: stable
+  date: 2016-02-18
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    [jan] Mark PHP 7 as supported.
+2.1.0:
+  api: 2.0.0
+  state:
+    release: stable
+    api: stable
+  date: 2016-01-05
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    [jan] Enable TLS 1.1 and 1.2 connections (Request #14190).
+2.0.0:
+  api: 2.0.0
+  state:
+    release: stable
+    api: stable
+  date: 2015-03-10
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    [jan] Add parameter for stream context settings (Request #13730).
+    [jan] Allow to pass hostname with protocol scheme prefix.
+    [jan] Add getStatus(), gets(), read(), and write().
+1.1.2:
+  api: 1.1.0
+  state:
+    release: stable
+    api: stable
+  date: 2014-07-01
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    [mms] Fix BC-breaking regression with self-signed TLS certificates introduced by PHP 5.6.
+1.1.1:
+  api: 1.1.0
+  state:
+    release: stable
+    api: stable
+  date: 2014-01-22
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    [mms] Handle transient socket connection issues.
+1.1.0:
+  api: 1.1.0
+  state:
+    release: stable
+    api: stable
+  date: 2013-10-30
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    [mms] Add 'tlsv1' as a secure parameter option in the Client constructor.
+1.0.0:
+  api: 1.0.0
+  state:
+    release: stable
+    api: stable
+  date: 2013-10-19
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    [mms] Initial release.
