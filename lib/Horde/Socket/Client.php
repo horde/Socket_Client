@@ -301,7 +301,7 @@ class Client
              * these are likely transient issues. Retry up to 3 times in these
              * instances. */
             if (!$error_number && ($retries < 3)) {
-                return $this->_connect($host, $port, $timeout, $secure, ++$retries, $context);
+                return $this->_connect($host, $port, $timeout, $secure, $context, ++$retries);
             }
 
             $e = new Client\Exception(
