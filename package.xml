@@ -21,7 +21,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
  <notes>
-* 
+* [mjr] Fix issues when retrying a failed connection (PR #1, Antoine Deschênes).
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -100,10 +100,12 @@
   <release>
    <version>
     <release>1.1.0</release>
-    <api>1.1.0</api></version>
+    <api>1.1.0</api>
+   </version>
    <stability>
     <release>stable</release>
-    <api>stable</api></stability>
+    <api>stable</api>
+   </stability>
    <date>2013-10-30</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
@@ -113,10 +115,12 @@
   <release>
    <version>
     <release>1.1.1</release>
-    <api>1.1.0</api></version>
+    <api>1.1.0</api>
+   </version>
    <stability>
     <release>stable</release>
-    <api>stable</api></stability>
+    <api>stable</api>
+   </stability>
    <date>2014-01-22</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
@@ -126,10 +130,12 @@
   <release>
    <version>
     <release>1.1.2</release>
-    <api>1.1.0</api></version>
+    <api>1.1.0</api>
+   </version>
    <stability>
     <release>stable</release>
-    <api>stable</api></stability>
+    <api>stable</api>
+   </stability>
    <date>2014-07-01</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
@@ -139,10 +145,12 @@
   <release>
    <version>
     <release>2.0.0</release>
-    <api>2.0.0</api></version>
+    <api>2.0.0</api>
+   </version>
    <stability>
     <release>stable</release>
-    <api>stable</api></stability>
+    <api>stable</api>
+   </stability>
    <date>2015-03-10</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
@@ -154,10 +162,12 @@
   <release>
    <version>
     <release>2.1.0</release>
-    <api>2.0.0</api></version>
+    <api>2.0.0</api>
+   </version>
    <stability>
     <release>stable</release>
-    <api>stable</api></stability>
+    <api>stable</api>
+   </stability>
    <date>2016-01-05</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
@@ -167,10 +177,12 @@
   <release>
    <version>
     <release>2.1.1</release>
-    <api>2.0.0</api></version>
+    <api>2.0.0</api>
+   </version>
    <stability>
     <release>stable</release>
-    <api>stable</api></stability>
+    <api>stable</api>
+   </stability>
    <date>2016-02-18</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
@@ -180,14 +192,16 @@
   <release>
    <version>
     <release>2.1.2</release>
-    <api>2.0.0</api></version>
+    <api>2.0.0</api>
+   </version>
    <stability>
     <release>stable</release>
-    <api>stable</api></stability>
-   <date>2017-11-11</date>
+    <api>stable</api>
+   </stability>
+   <date>2017-10-17</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
-* 
+* [mjr] Fix issues when retrying a failed connection (PR #1, Antoine Deschênes).
    </notes>
   </release>
  </changelog>
