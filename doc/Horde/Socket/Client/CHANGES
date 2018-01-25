@@ -1,6 +1,9 @@
-----------
-v2.1.2-git
-----------
+------
+v2.1.2
+------
+
+[mjr] Fix issues when retrying a failed connection (PR #1, Antoine Deschênes).
+
 
 
 ------
