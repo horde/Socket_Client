@@ -91,16 +91,6 @@ class Client
             $secure = false;
         }
 
-        $context = array_merge_recursive(
-            array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false
-                )
-            ),
-            $context
-        );
-
         $this->_params = $params;
 
         $this->_connect($host, $port, $timeout, $secure, $context);
