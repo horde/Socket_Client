@@ -8,8 +8,8 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-    
+  notes: |
+    [jan] Fix setting 'verify' context parameters (Christoph Wurst <christoph@winzerhof-wurst.at>, GH PR #3).
 2.1.2:
   api: 2.0.0
   state:
@@ -19,9 +19,8 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
+  notes: |
     [mjr] Fix issues when retrying a failed connection (PR #1, Antoine Deschênes).
-    
 2.1.1:
   api: 2.0.0
   state:
