@@ -12,7 +12,7 @@
  </lead>
  <date>2021-12-18</date>
  <version>
-  <release>2.1.4</release>
+  <release>2.1.5</release>
   <api>2.0.0</api>
  </version>
  <stability>
@@ -21,8 +21,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
  <notes>
-* Enable TLS 1.3 (PR #4, Christoph Wurst &lt;christoph@winzerhof-wurst.at&gt;).
-* |+
+* 
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -83,6 +82,16 @@
    </filelist>
  </phprelease>
  <changelog>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   <release>
    <version>
     <release>1.0.0</release>
@@ -234,6 +243,21 @@
    <notes>
 * Enable TLS 1.3 (PR #4, Christoph Wurst &lt;christoph@winzerhof-wurst.at&gt;).
 * |+
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>2.1.5</release>
+    <api>2.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2021-12-18</date>
+   <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
+   <notes>
+* 
    </notes>
   </release>
  </changelog>
