@@ -10,7 +10,7 @@
   <email>slusarz@horde.org</email>
   <active>no</active>
  </lead>
- <date>2021-03-13</date>
+ <date>2022-11-05</date>
  <version>
   <release>3.0.0alpha4</release>
   <api>3.0.0alpha1</api>
@@ -19,12 +19,20 @@
   <release>alpha</release>
   <api>alpha</api>
  </stability>
- <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
+ <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1-only</license>
  <notes>
-* 
+* [rla] Alpha release for PHP 8.
+* |+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
+   <dir name=".github">
+    <dir name="workflows">
+     <file name="ci.yml" role="php" />
+     <file name="phpdoc.yml" role="php" />
+     <file name="update-satis.yml" role="php" />
+    </dir> <!-- /.github/workflows -->
+   </dir> <!-- /.github -->
    <dir name="doc">
     <dir name="Horde">
      <dir name="Socket">
@@ -51,9 +59,9 @@
  <dependencies>
   <required>
    <php>
-    <min>7.0.0</min>
-    <max>8.0.0alpha1</max>
-    <exclude>8.0.0alpha1</exclude>
+    <min>7.4.0</min>
+    <max>9.0.0alpha1</max>
+    <exclude>9.0.0alpha1</exclude>
    </php>
    <pearinstaller>
     <min>1.7.0</min>
@@ -67,6 +75,9 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="workflows/ci.yml" name=".github/workflows/ci.yml" />
+   <install as="workflows/phpdoc.yml" name=".github/workflows/phpdoc.yml" />
+   <install as="workflows/update-satis.yml" name=".github/workflows/update-satis.yml" />
    <install as="CHANGES" name="doc/Horde/Socket/Client/CHANGES" />
    <install as="UPGRADING.rst" name="doc/Horde/Socket/Client/UPGRADING.rst" />
    <install as="Horde/Socket/Client.php" name="lib/Horde/Socket/Client.php" />
@@ -75,18 +86,6 @@
   </filelist>
  </phprelease>
  <changelog>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
   <release>
    <version>
     <release>1.0.0</release>
@@ -226,6 +225,21 @@
   </release>
   <release>
    <version>
+    <release>2.1.4</release>
+    <api>2.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2021-12-18</date>
+   <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
+   <notes>
+* Enable TLS 1.3 (PR #4, Christoph Wurst &lt;christoph@winzerhof-wurst.at&gt;).
+   </notes>
+  </release>
+  <release>
+   <version>
     <release>3.0.0alpha1</release>
     <api>3.0.0alpha1</api>
    </version>
@@ -236,7 +250,7 @@
    <date>2021-02-24</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
-* |+
+* Enable TLS 1.3 (PR #4, Christoph Wurst &lt;christoph@winzerhof-wurst.at&gt;).
    </notes>
   </release>
   <release>
@@ -279,9 +293,10 @@
     <api>alpha</api>
    </stability>
    <date>2021-03-13</date>
-   <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
+   <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1-only</license>
    <notes>
-* 
+* [rla] Alpha release for PHP 8.
+* |+
    </notes>
   </release>
  </changelog>

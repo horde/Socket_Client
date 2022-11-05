@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/socket_client",
     "description": "Network socket client library",
     "type": "library",
@@ -12,17 +11,18 @@
             "role": "lead"
         }
     ],
-    "time": "2021-03-13",
+    "time": "2022-11-05",
     "repositories": [
         {
             "type": "composer",
-            "url": "https://horde-satis.maintaina.com/"
+            "url": "https://horde-satis.maintaina.com"
         }
     ],
     "require": {
         "php": "^7.4 || ^8",
         "horde/exception": "^3 || dev-FRAMEWORK_6_0"
     },
+    "require-dev": {},
     "suggest": {
         "ext-openssl": "*"
     },
@@ -30,5 +30,11 @@
         "classmap": [
             "lib/"
         ]
+    },
+    "autoload-dev": [],
+    "config": {
+        "allow-plugins": {
+            "horde/horde-installer-plugin": true
+        }
     }
 }

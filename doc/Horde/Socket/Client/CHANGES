@@ -2,7 +2,8 @@
 v3.0.0alpha4
 ------------
 
-
+[rla] Alpha release for PHP 8.
+|+
 
 
 ------------
@@ -21,7 +22,15 @@ v3.0.0alpha2
 v3.0.0alpha1
 ------------
 
-|+
+Enable TLS 1.3 (PR #4, Christoph Wurst <christoph@winzerhof-wurst.at>).
+
+
+------
+v2.1.4
+------
+
+Enable TLS 1.3 (PR #4, Christoph Wurst <christoph@winzerhof-wurst.at>).
+
 
 ------
 v2.1.3
