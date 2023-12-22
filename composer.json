@@ -14,21 +14,15 @@
     "version": "2.1.5",
     "time": "2021-12-18",
     "repositories": [
-        {
-            "type": "pear",
-            "url": "https://pear.horde.org"
-        }
     ],
     "require": {
         "php": "^5.3 || ^7",
-        "pear-pear.horde.org/Horde_Exception": "^2"
+        "horde/exception": "^2"
     },
     "suggest": {
         "ext-openssl": "*"
     },
     "replace": {
-        "pear-pear.horde.org/Horde_Socket_Client": "2.*",
-        "pear-horde/Horde_Socket_Client": "2.*"
     },
     "autoload": {
         "psr-0": {
