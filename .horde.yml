@@ -7,28 +7,44 @@ list: dev
 type: library
 authors:
   -
+    name: Ralf Lang
+    user: rlang
+    email: ralf.lang@ralf-lang.de
+    active: true
+    role: maintainer
+  -
     name: Michael Slusarz
     user: slusarz
     email: slusarz@horde.org
     active: false
     role: lead
 version:
-  release: 3.0.0alpha5
+  release: 3.0.0-beta1
   api: 3.0.0alpha1
 state:
-  release: alpha
+  release: beta
   api: alpha
 license:
   identifier: LGPL-2.1-only
   uri: http://www.horde.org/licenses/lgpl21
 dependencies:
   required:
-    php: ^7.4 || ^8
+    php: ^8.1
     composer:
       horde/exception: ^3
   optional:
     ext:
       openssl: '*'
+    composer:
+      psr/event-dispatcher: ^1
+      horde/eventdispatcher: ^1
 autoload:
   classmap:
     - lib/
+  psr-4:
+    Horde\Socket\Client\: src/
+keywords:
+  - network
+  - raw
+  - communication
+vendor: horde
