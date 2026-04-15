@@ -208,7 +208,7 @@ class Client
     public function gets($size)
     {
         $this->_checkStream();
-        $data = @fgets($this->_stream, $size);
+        $data = @fgets($this->_stream, (int) $size);
         if ($data === false) {
             throw new Client\Exception('Error reading data from socket');
         }
@@ -226,7 +226,7 @@ class Client
     public function read($size)
     {
         $this->_checkStream();
-        $data = @fread($this->_stream, $size);
+        $data = @fread($this->_stream, (int) $size);
         if ($data === false) {
             throw new Client\Exception('Error reading data from socket');
         }
@@ -243,7 +243,7 @@ class Client
     public function write($data)
     {
         $this->_checkStream();
-        if (!@fwrite($this->_stream, $data)) {
+        if (@fwrite($this->_stream, $data) === false) {
             $meta_data = $this->getStatus();
             if (!empty($meta_data['timed_out'])) {
                 throw new Client\Exception('Timed out writing data to socket');
@@ -270,7 +270,7 @@ class Client
         $retries = 0
     ) {
         $conn = '';
-        if (!strpos($host, '://')) {
+        if (strpos((string) $host, '://') === false) {
             switch (strval($secure)) {
                 case 'ssl':
                 case 'sslv2':
@@ -318,11 +318,11 @@ class Client
             $e = new Client\Exception(
                 'Error connecting to server.'
             );
-            $e->details = sprintf("[%u] %s", $error_number, $error_string);
+            $e->details = sprintf("[%u] %s", (int) $error_number, (string) $error_string);
             throw $e;
         }
 
-        stream_set_timeout($this->_stream, $timeout);
+        stream_set_timeout($this->_stream, (int) $timeout);
 
         if (function_exists('stream_set_read_buffer')) {
             stream_set_read_buffer($this->_stream, 0);
