@@ -2,8 +2,11 @@
 
 namespace Horde\Socket;
 
+use InvalidArgumentException;
+use LogicException;
+
 /**
- * Copyright 2013-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2013-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -80,24 +83,27 @@ class Client
      * @throws Horde\Socket\Client\Exception
      */
     public function __construct(
-        $host, $port = null, $timeout = 30, $secure = false,
-        $context = array(), array $params = array()
-    )
-    {
+        $host,
+        $port = null,
+        $timeout = 30,
+        $secure = false,
+        $context = [],
+        array $params = []
+    ) {
         if ($secure && !extension_loaded('openssl')) {
             if ($secure !== true) {
-                throw new \InvalidArgumentException('Secure connections require the PHP openssl extension.');
+                throw new InvalidArgumentException('Secure connections require the PHP openssl extension.');
             }
             $secure = false;
         }
 
         $context = array_replace_recursive(
-            array(
-                'ssl' => array(
+            [
+                'ssl' => [
                     'verify_peer' => false,
-                    'verify_peer_name' => false
-                )
-            ),
+                    'verify_peer_name' => false,
+                ],
+            ],
             $context
         );
 
@@ -111,11 +117,11 @@ class Client
     public function __get($name)
     {
         switch ($name) {
-        case 'connected':
-            return $this->_connected;
+            case 'connected':
+                return $this->_connected;
 
-        case 'secure':
-            return $this->_secure;
+            case 'secure':
+                return $this->_secure;
         }
     }
 
@@ -124,7 +130,7 @@ class Client
      */
     public function __clone()
     {
-        throw new \LogicException('Object cannot be cloned.');
+        throw new LogicException('Object cannot be cloned.');
     }
 
     /**
@@ -132,7 +138,7 @@ class Client
      */
     public function __sleep()
     {
-        throw new \LogicException('Object can not be serialized.');
+        throw new LogicException('Object can not be serialized.');
     }
 
     /**
@@ -256,28 +262,32 @@ class Client
      * @throws Horde\Socket\Client\Exception
      */
     protected function _connect(
-        $host, $port, $timeout, $secure, $context, $retries = 0
-    )
-    {
+        $host,
+        $port,
+        $timeout,
+        $secure,
+        $context,
+        $retries = 0
+    ) {
         $conn = '';
         if (!strpos($host, '://')) {
             switch (strval($secure)) {
-            case 'ssl':
-            case 'sslv2':
-            case 'sslv3':
-                $conn = $secure . '://';
-                $this->_secure = true;
-                break;
+                case 'ssl':
+                case 'sslv2':
+                case 'sslv3':
+                    $conn = $secure . '://';
+                    $this->_secure = true;
+                    break;
 
-            case 'tlsv1':
-                $conn = 'tls://';
-                $this->_secure = true;
-                break;
+                case 'tlsv1':
+                    $conn = 'tls://';
+                    $this->_secure = true;
+                    break;
 
-            case 'tls':
-            default:
-                $conn = 'tcp://';
-                break;
+                case 'tls':
+                default:
+                    $conn = 'tcp://';
+                    break;
             }
         }
         $conn .= $host;
