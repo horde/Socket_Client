@@ -1,0 +1,353 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Copyright 2013-2026 The Horde Project (http://www.horde.org/)
+ *
+ * See the enclosed file LICENSE for license information (LGPL). If you
+ * did not receive this file, see http://www.horde.org/licenses/lgpl21.
+ *
+ * @author    Michael Slusarz <slusarz@horde.org>
+ * @author    Jan Schneider <jan@horde.org>
+ * @copyright 2013-2026 The Horde Project
+ * @license   http://www.horde.org/licenses/lgpl21 LGPL 2.1
+ * @package   Socket_Client
+ */
+
+namespace Horde\Socket\Client;
+
+use InvalidArgumentException;
+use LogicException;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Horde\Socket\Client\Event\ConnectionClosed;
+use Horde\Socket\Client\Event\ConnectionEstablished;
+use Horde\Socket\Client\Event\ConnectionFailed;
+use Horde\Socket\Client\Event\TlsFailed;
+use Horde\Socket\Client\Event\TlsNegotiated;
+use Horde\Socket\Client\Exception\ConnectionException;
+use Horde\Socket\Client\Exception\StreamException;
+use Horde\Socket\Client\Exception\TimeoutException;
+
+/**
+ * Network socket client with typed configuration and optional PSR-14 events.
+ *
+ * This is the modern replacement for Horde\Socket\Client (lib/).
+ * The two implementations coexist independently — consumers migrate
+ * at their own pace.
+ */
+class Client implements ClientInterface
+{
+    protected bool $connected = false;
+
+    protected bool $secure = false;
+
+    /** @var resource|null */
+    protected $stream = null;
+
+    private ?EventDispatcherInterface $dispatcher;
+
+    protected ConnectionConfig $config;
+
+    /**
+     * @throws ConnectionException  When the connection cannot be established.
+     * @throws InvalidArgumentException  When a secure mode requires the openssl extension.
+     */
+    public function __construct(
+        ConnectionConfig $config,
+        ?EventDispatcherInterface $dispatcher = null,
+    ) {
+        $this->config = $config;
+        $this->dispatcher = $dispatcher;
+
+        if ($config->secure !== SecureMode::None && !extension_loaded('openssl')) {
+            throw new InvalidArgumentException(
+                'Secure connections require the PHP openssl extension.',
+            );
+        }
+
+        $this->connect();
+    }
+
+    public function isConnected(): bool
+    {
+        return $this->connected;
+    }
+
+    public function isSecure(): bool
+    {
+        return $this->secure;
+    }
+
+    public function startTls(): bool
+    {
+        if (!$this->connected || $this->secure) {
+            return false;
+        }
+
+        $mode = STREAM_CRYPTO_METHOD_TLS_CLIENT;
+        if (defined('STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT')) {
+            $mode |= STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT
+                | STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT
+                | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+        }
+
+        $error = null;
+        set_error_handler(static function (int $severity, string $message) use (&$error): bool {
+            $error = $message;
+            return true;
+        });
+        try {
+            $result = stream_socket_enable_crypto($this->stream, true, $mode);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($result === true) {
+            $this->secure = true;
+            $this->emit(new TlsNegotiated(
+                'TLS negotiated',
+                ['host' => $this->config->host, 'port' => $this->config->port],
+            ));
+            return true;
+        }
+
+        $this->emit(new TlsFailed(
+            $error ?? 'TLS negotiation failed',
+            ['host' => $this->config->host, 'port' => $this->config->port, 'error' => $error],
+        ));
+
+        return false;
+    }
+
+    public function close(): void
+    {
+        if (!$this->connected) {
+            return;
+        }
+
+        // Best-effort close — suppression is acceptable here.
+        if (is_resource($this->stream)) {
+            @fclose($this->stream);
+        }
+
+        $this->connected = false;
+        $this->secure = false;
+        $this->stream = null;
+
+        $this->emit(new ConnectionClosed(
+            'Connection closed',
+            ['host' => $this->config->host, 'port' => $this->config->port],
+        ));
+    }
+
+    public function getStatus(): StreamStatus
+    {
+        $this->requireStream();
+        return StreamStatus::fromMetadata(stream_get_meta_data($this->stream));
+    }
+
+    public function gets(int $size): string
+    {
+        $this->requireStream();
+
+        $error = null;
+        set_error_handler(static function (int $severity, string $message) use (&$error): bool {
+            $error = $message;
+            return true;
+        });
+        try {
+            $data = fgets($this->stream, $size);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($data === false) {
+            throw new StreamException($error ?? 'Error reading line from socket');
+        }
+
+        return $data;
+    }
+
+    public function read(int $size): string
+    {
+        $this->requireStream();
+
+        $error = null;
+        set_error_handler(static function (int $severity, string $message) use (&$error): bool {
+            $error = $message;
+            return true;
+        });
+        try {
+            $data = fread($this->stream, $size);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($data === false) {
+            throw new StreamException($error ?? 'Error reading data from socket');
+        }
+
+        return $data;
+    }
+
+    public function write(string $data): void
+    {
+        $this->requireStream();
+
+        $error = null;
+        set_error_handler(static function (int $severity, string $message) use (&$error): bool {
+            $error = $message;
+            return true;
+        });
+        try {
+            $result = fwrite($this->stream, $data);
+        } finally {
+            restore_error_handler();
+        }
+
+        if ($result === false) {
+            $status = StreamStatus::fromMetadata(stream_get_meta_data($this->stream));
+            if ($status->timedOut) {
+                throw new TimeoutException($error ?? 'Timed out writing data to socket');
+            }
+            throw new StreamException($error ?? 'Error writing data to socket');
+        }
+    }
+
+    /**
+     * This object cannot be cloned.
+     */
+    public function __clone()
+    {
+        throw new LogicException('Object cannot be cloned.');
+    }
+
+    /**
+     * This object cannot be serialized.
+     */
+    public function __sleep()
+    {
+        throw new LogicException('Object cannot be serialized.');
+    }
+
+    /**
+     * Establish the socket connection with retry logic.
+     */
+    protected function connect(): void
+    {
+        $conn = match ($this->config->secure) {
+            SecureMode::Ssl => 'ssl://',
+            SecureMode::Tlsv1 => 'tls://',
+            SecureMode::Tls, SecureMode::None => 'tcp://',
+        };
+        $conn .= $this->config->host . ':' . $this->config->port;
+
+        $context = array_replace_recursive(
+            [
+                'ssl' => [
+                    'verify_peer' => $this->config->verifyPeer,
+                    'verify_peer_name' => $this->config->verifyPeerName,
+                ],
+            ],
+            $this->config->context,
+        );
+
+        if ($this->config->caFile !== null) {
+            $context['ssl']['cafile'] = $this->config->caFile;
+        }
+
+        $streamContext = stream_context_create($context);
+        $lastErrorNumber = 0;
+        $lastErrorString = '';
+
+        for ($attempt = 0; $attempt <= $this->config->maxRetries; $attempt++) {
+            $errorNumber = 0;
+            $errorString = '';
+
+            $error = null;
+            set_error_handler(static function (int $severity, string $message) use (&$error): bool {
+                $error = $message;
+                return true;
+            });
+            try {
+                $stream = stream_socket_client(
+                    $conn,
+                    $errorNumber,
+                    $errorString,
+                    $this->config->connectTimeout,
+                    STREAM_CLIENT_CONNECT,
+                    $streamContext,
+                );
+            } finally {
+                restore_error_handler();
+            }
+
+            if ($stream !== false) {
+                $this->stream = $stream;
+                stream_set_timeout($this->stream, $this->config->readTimeout);
+                if (function_exists('stream_set_read_buffer')) {
+                    stream_set_read_buffer($this->stream, 0);
+                }
+                stream_set_write_buffer($this->stream, 0);
+
+                $this->connected = true;
+                $this->secure = match ($this->config->secure) {
+                    SecureMode::Ssl, SecureMode::Tlsv1 => true,
+                    default => false,
+                };
+
+                $this->emit(new ConnectionEstablished(
+                    'Connection established',
+                    [
+                        'host' => $this->config->host,
+                        'port' => $this->config->port,
+                        'secure' => $this->secure,
+                        'retries' => $attempt,
+                    ],
+                ));
+
+                return;
+            }
+
+            $lastErrorNumber = $errorNumber;
+            $lastErrorString = $errorString;
+
+            // Only retry on transient "problem initializing the socket" (error code 0).
+            if ($errorNumber !== 0) {
+                break;
+            }
+        }
+
+        $this->emit(new ConnectionFailed(
+            'Connection failed',
+            [
+                'host' => $this->config->host,
+                'port' => $this->config->port,
+                'errorCode' => $lastErrorNumber,
+                'errorMessage' => $lastErrorString,
+            ],
+        ));
+
+        $e = new ConnectionException('Error connecting to server.');
+        $e->details = sprintf('[%u] %s', $lastErrorNumber, $lastErrorString);
+        throw $e;
+    }
+
+    /**
+     * Ensure the stream resource is valid.
+     *
+     * @throws StreamException
+     */
+    private function requireStream(): void
+    {
+        if (!is_resource($this->stream)) {
+            throw new StreamException('Not connected');
+        }
+    }
+
+    private function emit(object $event): void
+    {
+        $this->dispatcher?->dispatch($event);
+    }
+}
