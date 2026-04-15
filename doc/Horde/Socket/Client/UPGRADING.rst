@@ -33,3 +33,9 @@ Upgrading to 1.1.0
     - Constructor
 
       Added the 'tlsv1' option to the $secure parameter.
+
+
+Upgrading to 3.0.0
+==================
+
+See ``doc/UPGRADING.md`` for the full migration guide.
