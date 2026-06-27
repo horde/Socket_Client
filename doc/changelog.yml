@@ -1,57 +1,14 @@
 ---
-3.0.0alpha5:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2022-11-05
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha4:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2022-11-05
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [rla] Alpha release for PHP 8.
-    |+
-3.0.0alpha3:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2021-03-13
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha2:
-  api: 3.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2021-02-24
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha1:
-  api: 3.0.0alpha1
+3.0.0:
+  api: 3.0.0
   state:
     release: stable
     api: stable
-  date: 2021-02-24
+  date: 2026-06-27
   license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    Enable TLS 1.3 (PR #4, Christoph Wurst <christoph@winzerhof-wurst.at>).
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: "chore: refresh qc fixes and platform deps\nchore: Update workflow dependency"
 3.0.0-beta1:
   api: 3.0.0-beta1
   state:
@@ -61,14 +18,57 @@
   license:
     identifier: LGPL-2.1-only
     uri: https://spdx.org/licenses/LGPL-2.1-only.html
-  notes: |-
-    doc: Updated the upgrading guide to current version
-    test: Cover modern implementation with unit tests
-    feat: PSR-4 variant of Client with modernized api
-    fix: Potential null safety and casting issues.
-    test: Add basic unit test suite
-    style: php-cs-fixer
-    Development mode for Socket_Client-3.0.0alpha5
+  notes: "doc: Updated the upgrading guide to current version\ntest: Cover modern implementation with unit tests\nfeat: PSR-4 variant of Client with modernized api\nfix: Potential null safety and casting issues.\ntest: Add basic unit test suite\nstyle: php-cs-fixer\nDevelopment mode for Socket_Client-3.0.0alpha5"
+3.0.0alpha5:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2022-11-05
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: ''
+3.0.0alpha4:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2022-11-05
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: "[rla] Alpha release for PHP 8.\n|+\n"
+3.0.0alpha3:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2021-03-13
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: ''
+3.0.0alpha2:
+  api: 3.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2021-02-24
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: ''
+3.0.0alpha1:
+  api: 3.0.0alpha1
+  state:
+    release: stable
+    api: stable
+  date: 2021-02-24
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: "Enable TLS 1.3 (PR #4, Christoph Wurst <christoph@winzerhof-wurst.at>).\n"
 2.1.4:
   api: 2.0.0
   state:
@@ -78,8 +78,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    Enable TLS 1.3 (PR #4, Christoph Wurst <christoph@winzerhof-wurst.at>).
+  notes: "Enable TLS 1.3 (PR #4, Christoph Wurst <christoph@winzerhof-wurst.at>).\n"
 2.1.3:
   api: 2.0.0
   state:
@@ -89,8 +88,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Fix setting 'verify' context parameters (Christoph Wurst <christoph@winzerhof-wurst.at>, GH PR #3).
+  notes: "[jan] Fix setting 'verify' context parameters (Christoph Wurst <christoph@winzerhof-wurst.at>, GH PR #3).\n"
 2.1.2:
   api: 2.0.0
   state:
@@ -100,8 +98,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [mjr] Fix issues when retrying a failed connection (PR #1, Antoine Deschênes).
+  notes: "[mjr] Fix issues when retrying a failed connection (PR #1, Antoine Deschênes).\n"
 2.1.1:
   api: 2.0.0
   state:
@@ -111,8 +108,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Mark PHP 7 as supported.
+  notes: "[jan] Mark PHP 7 as supported.\n"
 2.1.0:
   api: 2.0.0
   state:
@@ -122,8 +118,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Enable TLS 1.1 and 1.2 connections (Request #14190).
+  notes: "[jan] Enable TLS 1.1 and 1.2 connections (Request #14190).\n"
 2.0.0:
   api: 2.0.0
   state:
@@ -133,10 +128,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Add parameter for stream context settings (Request #13730).
-    [jan] Allow to pass hostname with protocol scheme prefix.
-    [jan] Add getStatus(), gets(), read(), and write().
+  notes: "[jan] Add parameter for stream context settings (Request #13730).\n[jan] Allow to pass hostname with protocol scheme prefix.\n[jan] Add getStatus(), gets(), read(), and write().\n"
 1.1.2:
   api: 1.1.0
   state:
@@ -146,8 +138,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [mms] Fix BC-breaking regression with self-signed TLS certificates introduced by PHP 5.6.
+  notes: "[mms] Fix BC-breaking regression with self-signed TLS certificates introduced by PHP 5.6.\n"
 1.1.1:
   api: 1.1.0
   state:
@@ -157,8 +148,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [mms] Handle transient socket connection issues.
+  notes: "[mms] Handle transient socket connection issues.\n"
 1.1.0:
   api: 1.1.0
   state:
@@ -168,8 +158,7 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [mms] Add 'tlsv1' as a secure parameter option in the Client constructor.
+  notes: "[mms] Add 'tlsv1' as a secure parameter option in the Client constructor.\n"
 1.0.0:
   api: 1.0.0
   state:
@@ -179,5 +168,4 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [mms] Initial release.
+  notes: "[mms] Initial release.\n"
