@@ -15,6 +15,7 @@ use Horde\Socket\Client\ConnectionConfig;
 use Horde\Socket\Client\SecureMode;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
 #[CoversClass(ConnectionConfig::class)]
 class ConnectionConfigTest extends TestCase
@@ -69,7 +70,7 @@ class ConnectionConfigTest extends TestCase
     public function testImmutability(): void
     {
         $config = new ConnectionConfig(host: 'localhost', port: 143);
-        $ref = new \ReflectionProperty(ConnectionConfig::class, 'host');
+        $ref = new ReflectionProperty(ConnectionConfig::class, 'host');
         $this->assertTrue($ref->isReadOnly());
     }
 }
