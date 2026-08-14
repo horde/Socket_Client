@@ -1,4 +1,14 @@
 ---
+3.1.0:
+  api: 3.1.0
+  state:
+    release: stable
+    api: stable
+  date: 2026-08-14
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: "feat: Support capturing the TLS peer certificate for Channel Binding\nchore: refresh CI bootstrap"
 3.0.0:
   api: 3.0.0
   state:
