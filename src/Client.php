@@ -19,12 +19,15 @@ namespace Horde\Socket\Client;
 
 use InvalidArgumentException;
 use LogicException;
+use OpenSSLCertificate;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Horde\Socket\Client\ChannelBinding\ChannelBindingType;
 use Horde\Socket\Client\Event\ConnectionClosed;
 use Horde\Socket\Client\Event\ConnectionEstablished;
 use Horde\Socket\Client\Event\ConnectionFailed;
 use Horde\Socket\Client\Event\TlsFailed;
 use Horde\Socket\Client\Event\TlsNegotiated;
+use Horde\Socket\Client\Exception\ChannelBindingException;
 use Horde\Socket\Client\Exception\ConnectionException;
 use Horde\Socket\Client\Exception\StreamException;
 use Horde\Socket\Client\Exception\TimeoutException;
@@ -44,6 +47,9 @@ class Client implements ClientInterface
 
     /** @var resource|null */
     protected $stream = null;
+
+    /** @var OpenSSLCertificate|resource|null Captured negotiated peer certificate. */
+    protected mixed $peerCertificate = null;
 
     private ?EventDispatcherInterface $dispatcher;
 
@@ -105,6 +111,7 @@ class Client implements ClientInterface
 
         if ($result === true) {
             $this->secure = true;
+            $this->capturePeerCertificate();
             $this->emit(new TlsNegotiated(
                 'TLS negotiated',
                 ['host' => $this->config->host, 'port' => $this->config->port],
@@ -134,6 +141,7 @@ class Client implements ClientInterface
         $this->connected = false;
         $this->secure = false;
         $this->stream = null;
+        $this->peerCertificate = null;
 
         $this->emit(new ConnectionClosed(
             'Connection closed',
@@ -145,6 +153,46 @@ class Client implements ClientInterface
     {
         $this->requireStream();
         return StreamStatus::fromMetadata(stream_get_meta_data($this->stream));
+    }
+
+    public function supportsChannelBinding(ChannelBindingType $type): bool
+    {
+        return $type === ChannelBindingType::TlsServerEndPoint
+            && $this->secure
+            && $this->peerCertificate !== null;
+    }
+
+    public function channelBindingData(ChannelBindingType $type): string
+    {
+        if ($type !== ChannelBindingType::TlsServerEndPoint) {
+            throw new ChannelBindingException(sprintf(
+                '%s channel binding is not supported: PHP\'s stream/openssl API'
+                    . ' exposes no equivalent of SSL_export_keying_material() or'
+                    . ' the TLS Finished message (see php/php-src#16766).',
+                $type->value,
+            ));
+        }
+
+        if (!$this->secure || $this->peerCertificate === null) {
+            throw new ChannelBindingException(
+                'No TLS peer certificate available for channel binding.'
+                    . ' The connection must be secure and the server must have'
+                    . ' presented a certificate.',
+            );
+        }
+
+        $parsed = openssl_x509_parse($this->peerCertificate);
+        if ($parsed === false) {
+            throw new ChannelBindingException('Unable to parse the peer certificate.');
+        }
+
+        $algorithm = $this->fingerprintAlgorithm($parsed);
+        $hash = openssl_x509_fingerprint($this->peerCertificate, $algorithm, true);
+        if ($hash === false) {
+            throw new ChannelBindingException('Unable to compute the certificate fingerprint.');
+        }
+
+        return $hash;
     }
 
     public function gets(int $size): string
@@ -248,6 +296,7 @@ class Client implements ClientInterface
                 'ssl' => [
                     'verify_peer' => $this->config->verifyPeer,
                     'verify_peer_name' => $this->config->verifyPeerName,
+                    'capture_peer_cert' => true,
                 ],
             ],
             $this->config->context,
@@ -297,6 +346,10 @@ class Client implements ClientInterface
                     default => false,
                 };
 
+                if ($this->secure) {
+                    $this->capturePeerCertificate();
+                }
+
                 $this->emit(new ConnectionEstablished(
                     'Connection established',
                     [
@@ -344,6 +397,33 @@ class Client implements ClientInterface
         if (!is_resource($this->stream)) {
             throw new StreamException('Not connected');
         }
+    }
+
+    /**
+     * Capture the negotiated TLS peer certificate for channel binding.
+     */
+    private function capturePeerCertificate(): void
+    {
+        $params = stream_context_get_params($this->stream);
+        $this->peerCertificate = $params['options']['ssl']['peer_certificate'] ?? null;
+    }
+
+    /**
+     * The hash algorithm to fingerprint the peer certificate with, per
+     * RFC 5929 §4.1: use the certificate's own signature digest, unless
+     * that digest is MD5/SHA-1 (or unrecognized), in which case fall back
+     * to SHA-256.
+     *
+     * @param array<string, mixed> $parsed Result of openssl_x509_parse().
+     */
+    private function fingerprintAlgorithm(array $parsed): string
+    {
+        $signatureType = $parsed['signatureTypeSN'] ?? $parsed['signatureTypeLN'] ?? '';
+        if (is_string($signatureType) && preg_match('/sha(224|256|384|512)/i', $signatureType, $matches) === 1) {
+            return 'sha' . $matches[1];
+        }
+
+        return 'sha256';
     }
 
     private function emit(object $event): void

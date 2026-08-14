@@ -17,6 +17,9 @@ declare(strict_types=1);
 
 namespace Horde\Socket\Client;
 
+use Horde\Socket\Client\ChannelBinding\ChannelBindingType;
+use Horde\Socket\Client\Exception\ChannelBindingException;
+
 /**
  * Interface for a network socket client.
  */
@@ -25,6 +28,26 @@ interface ClientInterface
     public function isConnected(): bool;
 
     public function isSecure(): bool;
+
+    /**
+     * Whether the live connection can currently produce the given
+     * TLS channel-binding type (RFC 5929 / RFC 9266).
+     */
+    public function supportsChannelBinding(ChannelBindingType $type): bool;
+
+    /**
+     * The TLS channel-binding data for the given type.
+     *
+     * Intended to be handed to a SASL library's channel-binding provider
+     * seam (e.g. `Horde\Sasl\ChannelBinding\ChannelBindingProvider`) for the
+     * SCRAM-*-PLUS family of mechanisms.
+     *
+     * @throws ChannelBindingException If the connection isn't secure, no
+     *                                  peer certificate was captured, or the
+     *                                  type cannot be produced by PHP's
+     *                                  stream/openssl API.
+     */
+    public function channelBindingData(ChannelBindingType $type): string;
 
     /**
      * Upgrade an existing plaintext connection to TLS.
